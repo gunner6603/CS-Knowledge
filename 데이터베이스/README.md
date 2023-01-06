@@ -29,23 +29,25 @@
                 * DEFAULT : 자식 릴레이션 외래키를 미리 설정해 둔 값으로 변경
                 * NULL : 자식 릴레이션 외래키를 NULL 값으로 변경
 
-## SQL
+## SQL 기본 문법
 ### 종류
 * 데이터 정의어(DDL) : 테이블이나 관계의 구조를 생성하는 데 사용하며 CREATE, ALTER, DROP 문 등이 있음
 * 데이터 조작어(DML) : 테이블에 데이터를 검색, 삽입, 수정, 삭제하는 데 사용하며 SELECT, INSERT, UPDATE, DELETE 문 등이 있음
 * 데이터 제어어(DCL) : 데이터의 사용 권한을 관리하는 데 사용하며 GRANT, REVOKE 문 등이 있음
 
 ### 데이터 조작어-검색
-* SELECT 문의 기본 문법
-    * SELECT [ALL | DISTINCT] 속성이름
-    * FROM 테이블이름
-    * WHERE 검색조건
-    * GROUP BY 속성이름
-    * HAVING 검색조건
-    * ORDER BY 속성이름 [ASC | DESC]
+* SELECT 문 : 데이터를 조회하는 명령어, 질의어(query)라고 부름
+    * 문법
+        * SELECT [ALL | DISTINCT] 속성이름
+        * FROM 테이블이름
+        * WHERE 검색조건
+        * GROUP BY 속성이름
+        * HAVING 검색조건
+        * ORDER BY 속성이름 [ASC | DESC]
 
 * SQL 문은 관계대수와 달리 기본적으로 중복을 제거하지 않음
     * 중복을 제거하고 싶으면 DISTINCT 키워드를 사용
+
 * 두 개 이상 테이블에서의 SQL 질의
     * 조인(join)
     * 부속질의(subquery) : SELECT 문의 WHERE 절에 또 다른 테이블 결과를 이용하기 위해 다시 SELECT 문을 괄호로 묶는 것
@@ -62,3 +64,57 @@
         * NOT EXISTS는 하위 부속질의에서 조건에 맞는 투플이 존재하지 않는 경우에만 해당 상위 부속질의의 투플을 결과에 포함시킴
 
 ### 데이터 정의어
+* CREATE 문 : 테이블을 구성하고, 속성과 속성에 관한 제약을 정의하며, 기본키 및 외래키를 정의하는 명령
+    * 문법
+        * CREATE TABLE 테이블이름
+        * ( 속성이름 데이터타입 [NULL | NOT NULL | UNIQUE | DEFAULT 기본값 | CHECK 체크조건]
+        * PRIMARY KEY 속성이름
+        * FOREIGN KEY 속성이름 REFERENCES 테이블이름(속성이름)
+        * ON DELETE CASCADE | SET NULL
+        * )
+            * ON DELETE 옵션을 명시하지 않으면 RESTRICT임(외래키에 의해 참조되는 투플은 삭제 불가)
+
+* 문자형 데이터 타입 CHAR, VARCHAR
+    * CHAR(n) : 저장되는 문자의 길이가 n보다 작으면 나머지는 공백으로 채움
+    * VARCHAR(n) : 저장되는 문자의 길이만큼만 기억장소를 차지함
+    * CHAR는 데이터를 읽을 때 성능 이점이 있고, VARCHAR는 저장 효율이 좋음
+
+* ALTER 문 : 생성된 테이블의 속성과 속성에 관한 제약을 변경하며, 기본키 및 외래키를 변경하는 명령
+    * 문법
+        * ALTER TABLE 테이블이름
+        * ADD COLUMN 속성이름 데이터타입
+        * DROP COLUMN 속성이름
+        * MODIFY COLUMN 속성이름 데이터타입 제약조건
+        * CHANGE COLUMN 속성이름 바꿀속성이름 데이터타입 제약조건
+        * ADD PRIMARY KEY(속성이름)
+        * ADD FOREIGN KEY(속성이름) REFERENCES 참조테이블이름(참조속성이름)
+        * ADD | DROP CONSTRAINT 제약이름
+
+* DROP 문 : 테이블을 삭제하는 명령
+    * 테이블의 구조와 데이터를 모두 삭제
+    * 데이터만 삭제하려면 DELETE 문을 사용
+    * 문법
+        * DROP TABLE 테이블이름
+
+### 데이터 조작어-삽입, 수정, 삭제
+* INSERT 문 : 테이블에 새로운 투플을 삽입하는 명령
+    * 문법
+        * INSERT INTO 테이블 이름(속성리스트)
+        * VALUES (값리스트)
+
+* 대량 삽입(bulk insert) : 여러 개의 투플을 한 번에 삽입하는 방법
+    * INSERT INTO 테이블 이름(속성리스트) SELECT ~
+
+* UPDATE 문 : 특정 속성 값을 수정하는 명령
+    * 문법
+        * UPDATE 테이블이름
+        * SET 속성이름 1=값 1, 속성이름 2=값 2, ...
+        * WHERE 검색조건
+
+* DELETE 문 : 테이블에 있는 기존 투플을 삭제하는 명령
+    * 문법
+        * DELETE FROM 테이블이름
+        * WHERE 검색조건
+
+## SQL 고급 문법
+###
